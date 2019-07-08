@@ -10,22 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_07_012046) do
+ActiveRecord::Schema.define(version: 2019_07_08_141011) do
+
+  create_table "journals", force: :cascade do |t|
+    t.integer "number"
+  end
 
   create_table "library_items", force: :cascade do |t|
     t.string "publisher"
     t.string "title"
     t.string "url"
     t.string "name"
-    t.string "type"
-    t.string "brand_name"
-    t.string "type_of_mag"
-    t.date "date_of_pub"
-    t.integer "number"
     t.date "checkout_date"
     t.date "return_date"
+    t.string "libraryable_type"
+    t.integer "libraryable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["libraryable_type", "libraryable_id"], name: "index_library_items_on_libraryable_type_and_libraryable_id"
+  end
+
+  create_table "magazines", force: :cascade do |t|
+    t.string "type"
+    t.date "date_of_pub"
   end
 
 end
