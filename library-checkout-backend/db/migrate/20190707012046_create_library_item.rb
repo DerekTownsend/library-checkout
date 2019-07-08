@@ -5,23 +5,24 @@ class CreateLibraryItem < ActiveRecord::Migration[5.2]
       t.string :title
       t.string :url
       t.string :name
+      # t.references :imageable, polymorphic: true, index: true
 
       # type of book
-      t.string :type
+      # t.string :type
 
       # Magazines
-      t.string :brand_name
-      t.string :type_of_mag
-      t.date :date_of_pub
+      # t.string :brand_name
+      # t.string :type_of_mag
+      # t.date :date_of_pub
 
       #journals
-      t.integer :number
-      t.string :title
-      
+      # t.integer :number
+      # t.string :title
+
       t.date :checkout_date
       t.date :return_date
 
-      # t.references :library_itemable, polymorphic: true, index: true
+      t.references :libraryable, polymorphic: true, index: true
 
 
       t.timestamps

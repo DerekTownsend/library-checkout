@@ -1,6 +1,8 @@
 class LibraryItem < ApplicationRecord
   # has_one :magazine
-  # belongs_to :library_itemable, polymorphic: true
+  # has_one :journal
+
+  belongs_to :libraryable, polymorphic: true
 
   def what
     puts "WHAT"
