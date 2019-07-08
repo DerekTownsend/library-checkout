@@ -6,7 +6,7 @@ class ObjectSerializer
   def to_serialized_json
     obj = { include: {
       library_item: {
-      except: %i[created_at updated_at libraryable_type libraryable_id]
+      except: %i[created_at updated_at libraryable_id]
       }
     }, except: %i[created_at updated_at] }
 

@@ -9,10 +9,19 @@
   <body>
     <header>
       <h1>Library</h1>
-      <button type="button" name="button" id="add-book">Add book</button>
+      <button type="button" name="button" class="add-item">Add book</button>
+      <span>Show: </span>
+      <select class="filter" name="filter">
+        <option value="All">All</option>
+        <option value="Book">Books</option>
+        <option value="Journal">Journals</option>
+        <option value="Magazine">Magazines</option>
+        <option value="ConferenceProceeding">Conference Proceedings</option>
+      </select>
     </header>
 
     <main>
+
       <!-- <div class="grid">
   <img class="img" src="https://www.ethanproductions.com/comicbooks/images/comics20120210132349855.jpg" alt="">
   <div class = "item-info">
@@ -29,7 +38,9 @@
     </div>
   </div> -->
     </main>
-
+    
+    <script src="./src/domManipulation.js" defer></script>
+    <script src="./src/eventListeners.js" defer></script>
     <script src="./src/index.js" defer></script>
   </body>
 </html>
