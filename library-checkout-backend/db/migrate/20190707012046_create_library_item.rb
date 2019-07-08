@@ -2,9 +2,10 @@ class CreateLibraryItem < ActiveRecord::Migration[5.2]
   def change
     create_table :library_items do |t|
       t.string :publisher
-      t.string :title
+      # t.string :title
       t.string :url
       t.string :name
+      t.text :description
       # t.references :imageable, polymorphic: true, index: true
 
       # type of book

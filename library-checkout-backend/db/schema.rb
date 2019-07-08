@@ -10,17 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_08_141011) do
+ActiveRecord::Schema.define(version: 2019_07_08_160925) do
+
+  create_table "books", force: :cascade do |t|
+    t.string "author"
+    t.integer "volume"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "conference_proceedings", force: :cascade do |t|
+    t.string "location"
+    t.date "date"
+    t.string "editor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "journals", force: :cascade do |t|
     t.integer "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "library_items", force: :cascade do |t|
     t.string "publisher"
-    t.string "title"
     t.string "url"
     t.string "name"
+    t.text "description"
     t.date "checkout_date"
     t.date "return_date"
     t.string "libraryable_type"
@@ -31,8 +48,10 @@ ActiveRecord::Schema.define(version: 2019_07_08_141011) do
   end
 
   create_table "magazines", force: :cascade do |t|
-    t.string "type"
+    t.string "type_of_mag"
     t.date "date_of_pub"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

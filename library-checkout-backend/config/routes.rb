@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :books
+  resources :conference_proceedings
   resources :journals
   resources :library_items
   resources :magazines
