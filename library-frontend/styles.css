@@ -1,8 +1,15 @@
-@@import "https://fonts.googleapis.com/css?family=Oxygen";
+@import "https://fonts.googleapis.com/css?family=Oxygen";
+
 body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
   font-family: "Oxygen", sans-serif;
+}
+body.no-scroll {
+  overflow: hidden;
 }
 main {
   margin: 2em 3em;
@@ -30,10 +37,16 @@ p {
     grid-area: item-info;
 }
 .buttons{
-    grid-area: buttons;
+  grid-area: buttons;
+  justify-self: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 .buttons button{
-  display:block;
+  display: block;
+  text-align: center;
+  width: 100%;
+  height: 2em;
 }
 .item-info p {
    margin: .5em;
@@ -43,7 +56,7 @@ p {
 .grid {
   display: grid;
   margin-top: 2em;
-  /* min-height: 23em; */
+  min-height: 23em;
 /*   grid-gap:15px 15px; */
   grid-template-columns: auto;
     grid-template-rows: 40% 60%;
@@ -54,12 +67,51 @@ p {
     "img description buttons";
     border-bottom: black solid .2em;
 }
+.overlay  {
+  width: 100%;
+  height: 100%;
+  right: 0;
+  left: 0;
+  top: 0;
+  position: fixed;
+  margin: 0 auto;
+  background-color:rgba(192,192,192,0.4);
+}
+label{
+  display: block;
+}
+.module {
+  width: 40em;
+  height: 40em;
+  right: 0;
+  left: 0;
+  top: 10%;
+  position: absolute;
+  background-color: white;
+  margin: auto;
+  border-radius: 1em;
+  padding: .5em;
+}
+.module h2 {
+  text-align: center;
+}
+.hidden{
+  display: none;
+}
 
+button.exit {
+  cursor:pointer;
+  background:none;
+  border:none;
+  text-align:right;
+  font-size:1em;
+  position: absolute;
+  color:black;
+  /* padding: 1em; */
+  top:1%;
+  right:2%;
+}
 @media (max-width: 870px) {
-/*   .text,
-  .image {
-    width: 100%;
-  } */
   .grid {
     grid-template-columns: auto;
      grid-template-rows: auto;
@@ -83,6 +135,7 @@ p {
   }
   .buttons button{
     display: inline;
-
+    height: auto;
+    width: auto;
   }
 }

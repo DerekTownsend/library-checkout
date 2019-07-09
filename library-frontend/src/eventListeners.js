@@ -14,8 +14,51 @@ function filterResults(choice) {
   }
 }
 
-function addItem(click) {
-  console.log("add");
+function submitNewItem(e) {
+  e.preventDefault()
+
+  let commonItems = {
+    name: e.target[0].value,
+    publisher: e.target[1].value,
+    description: e.target[2].value,
+    url: e.target[3].value,
+  }
+  const itemType = e.target[4].value;
+
+  if (itemType == "Book") {
+    submitBook(commonItems, e.target[5].value, e.target[6].value)
+  }else if (itemType == "Journal") {
+    submitJournal(commonItems, e.target[5].value)
+  }else if (itemType == "Magazine") {
+    submitMagazine(commonItems, e.target[5].value, e.target[6].value)
+  }else if (itemType == "ConferenceProceeding") {
+    submitConferenceProceeding(commonItems, e.target[5].value, e.target[6].value, e.target[7].value)
+  }
+  resetForm()
+  closeModule()
+}
+
+function chooseFormOptions(option) {
+  const formOptions = document.querySelector(".form-options")
+
+  if (option.target.value == "Book") {
+    displayBooksOptions(formOptions)
+  }else if (option.target.value == "Journal") {
+    displayJournalsOptions(formOptions)
+  }else if (option.target.value == "Magazine") {
+    displayMagazinesOptions(formOptions)
+  }else if (option.target.value == "ConferenceProceeding") {
+    displayConferenceProceedingsOptions(formOptions)
+  }
+}
+
+function addItem() {
+  formModule();
+  const addForm = document.querySelector("form.add-library-item")
+  const choiceDropDown = addForm.querySelector(".item-type")
+
+  choiceDropDown.addEventListener("change", chooseFormOptions)
+  addForm.addEventListener("submit", submitNewItem)
 }
 function deleteItem(click) {
   console.log("delete");
@@ -32,6 +75,7 @@ function checkoutItem(click) {
 }
 
 function buttonFunctionality(click) {
+  // console.log(click.target.classList);
   if (click.target.classList.contains("checkout")) {
     checkoutItem(click.target);
   }else if (click.target.classList.contains("edit")) {
@@ -39,7 +83,9 @@ function buttonFunctionality(click) {
   }else if (click.target.classList.contains("delete")) {
     deleteItem(click.target);
   }else if (click.target.classList.contains("add-item")) {
-    addItem(click.target);
+    addItem();
+  }else if (click.target.classList.contains("exit") || click.target.classList.contains("fas")) {
+    closeModule()
   }
 }
 function addAllListeners() {

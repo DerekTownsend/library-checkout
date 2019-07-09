@@ -33,6 +33,121 @@ function getCommonElements() {
 
   return {item, img, name, publisher, description, itemInfo};
 }
+function displayBooksOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const authorInput = document.createElement("input")
+  const authorLabel = document.createElement("label")
+  const volumeInput = document.createElement("input")
+  const volumeLabel = document.createElement("label")
+
+  authorInput.setAttribute("type","text")
+  authorInput.setAttribute("name","author")
+  authorInput.setAttribute("required","")
+  authorInput.id = "author"
+
+  authorLabel.setAttribute("for","author")
+  authorLabel.textContent = "Author: "
+
+  volumeInput.setAttribute("type","number")
+  volumeInput.setAttribute("name","volume")
+  volumeInput.setAttribute("required","")
+  volumeInput.id = "volume"
+
+  volumeLabel.setAttribute("for","volume")
+  volumeLabel.textContent = "Volume: "
+
+  formDiv.append(authorLabel, authorInput, volumeLabel, volumeInput)
+}
+function displayJournalsOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const numberInput = document.createElement("input")
+  const numberLabel = document.createElement("label")
+
+  numberInput.setAttribute("type","number")
+  numberInput.setAttribute("name","number")
+  numberInput.setAttribute("required","")
+  numberInput.id = "number"
+
+  numberLabel.setAttribute("for","number")
+  numberLabel.textContent = "Number: "
+
+  formDiv.append(numberLabel, numberInput)
+}
+function displayMagazinesOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const typeOfMagInput = document.createElement("input")
+  const typeOfMagLabel = document.createElement("label")
+  const dateOfPubInput = document.createElement("input")
+  const dateOfPubLabel = document.createElement("label")
+
+  typeOfMagInput.setAttribute("type","text")
+  typeOfMagInput.setAttribute("name","type_of_mag")
+  typeOfMagInput.setAttribute("required","")
+  typeOfMagInput.id = "typeOfMag"
+
+  typeOfMagLabel.setAttribute("for","typeOfMag")
+  typeOfMagLabel.textContent = "Type: "
+
+  dateOfPubInput.setAttribute("type","date")
+  dateOfPubInput.setAttribute("name","date_of_pub")
+  dateOfPubInput.setAttribute("required","")
+  dateOfPubInput.id = "dateOfPub"
+
+  dateOfPubLabel.setAttribute("for","dateOfPub")
+  dateOfPubLabel.textContent = "Date Of Publication: "
+
+  formDiv.append(typeOfMagLabel, typeOfMagInput, dateOfPubLabel, dateOfPubInput)
+}
+function displayConferenceProceedingsOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const locationInput = document.createElement("input")
+  const locationLabel = document.createElement("label")
+  const dateInput = document.createElement("input")
+  const dateLabel = document.createElement("label")
+  const editorInput = document.createElement("input")
+  const editorLabel = document.createElement("label")
+
+  locationInput.setAttribute("type","text")
+  locationInput.setAttribute("name","location")
+  locationInput.setAttribute("required","")
+  locationInput.id = "location"
+
+  locationLabel.setAttribute("for","location")
+  locationLabel.textContent = "Location: "
+
+  dateInput.setAttribute("type","date")
+  dateInput.setAttribute("name","date")
+  dateInput.setAttribute("required","")
+  dateInput.id = "date"
+
+  dateLabel.setAttribute("for","date")
+  dateLabel.textContent = "Date: "
+
+  editorInput.setAttribute("type","text")
+  editorInput.setAttribute("name","editor")
+  editorInput.setAttribute("required","")
+  editorInput.id = "editor"
+
+  editorLabel.setAttribute("for","editor")
+  editorLabel.textContent = "Editor: "
+
+  formDiv.append(editorLabel, editorInput, dateLabel, dateInput,locationLabel, locationInput)
+}
+
+function formModule() {
+  const overlay = document.querySelector("#add-overlay")
+  const body = document.querySelector("body")
+
+  body.classList.add("no-scroll")
+  overlay.classList.remove("hidden")
+}
+function closeModule() {
+  const overlay = document.querySelector("#add-overlay")
+  const body = document.querySelector("body")
+
+  body.classList.remove("no-scroll")
+  overlay.classList.add("hidden")
+}
 
 function generateJournalElements(specifics) {
   const number = document.createElement("p")
@@ -105,30 +220,4 @@ function displayItems(libraryItems) {
     }
 
   }
-}
-
-function displayLibrary() {
-  fetch(LIBRARY_ITEMS_URL)
-  .then(response => response.json())
-  .then(json => displayItems(json))
-}
-function displayBooks() {
-  fetch(BOOKS_URL)
-  .then(response => response.json())
-  .then(json => displayItems(json))
-}
-function displayJournals() {
-  fetch(JOURNALS_URL)
-  .then(response => response.json())
-  .then(json => displayItems(json))
-}
-function displayMagazines() {
-  fetch(MAGAZINES_URL)
-  .then(response => response.json())
-  .then(json => displayItems(json))
-}
-function displayConferenceProceedings() {
-  fetch(CONFERENCE_PROCEEDINGS_URL)
-  .then(response => response.json())
-  .then(json => displayItems(json))
 }

@@ -7,9 +7,10 @@ const CONFERENCE_PROCEEDINGS_URL = `${BASE_URL}/conference_proceedings`
 
 function application() {
   displayLibrary();
+  addAllListeners();
+
 }
 
 document.addEventListener("DOMContentLoaded",() => {
   application()
-  addAllListeners();
 })

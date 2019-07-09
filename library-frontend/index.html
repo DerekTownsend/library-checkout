@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Library</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
@@ -19,6 +20,38 @@
         <option value="ConferenceProceeding">Conference Proceedings</option>
       </select>
     </header>
+    <div class="overlay hidden" id = "add-overlay">
+      <div class="module">
+        <button id="exit" class="exit">
+          <i class="fas fa-times fa-2x"></i>
+        </button>
+        <h2>Create Library Item</h2>
+        <form class="add-library-item">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name">
+          <label for="publisher">Publisher</label>
+          <input type="text" name="publisher" id="publisher">
+          <label for="description">Description</label>
+          <textarea name="description" rows="8" cols="40" id="description"></textarea>
+          <label for="url">Image URL</label>
+          <input type="text" name="url" id="url">
+          <label for="item-type">Type</label>
+          <select class="item-type" name="item-type" id="item-type" required>
+            <option value="">Select One …</option>
+            <option value="Book">Books</option>
+            <option value="Journal">Journals</option>
+            <option value="Magazine">Magazines</option>
+            <option value="ConferenceProceeding">Conference Proceedings</option>
+          </select>
+          <div class="form-options">
+
+          </div>
+          <input type="submit" name="submit" value="Submit">
+          <input type="reset" name="reset" class="reset" value="Reset">
+        </form>
+    </div>
+
+    </div>
 
     <main>
 
@@ -38,8 +71,9 @@
     </div>
   </div> -->
     </main>
-    
+
     <script src="./src/domManipulation.js" defer></script>
+    <script src="./src/fetchRequests.js" defer></script>
     <script src="./src/eventListeners.js" defer></script>
     <script src="./src/index.js" defer></script>
   </body>
