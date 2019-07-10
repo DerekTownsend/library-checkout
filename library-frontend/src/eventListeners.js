@@ -140,7 +140,8 @@ function loginUser(e) {
   if (e.target.children.length === 3) {
     console.log("Login Request");
   }else{
-    console.log(e.target);
+    // console.log(e.target);
+    registerRequest(e.target)
   }
   // console.log("Log");
 }

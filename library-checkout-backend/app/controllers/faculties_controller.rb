@@ -13,11 +13,19 @@ class FacultiesController < ApplicationController
   end
 
   def create
-    # faculty = Faculty.create_or_find_by(params[:user_attributes][:username])
-    faculty = Faculty.find_by(params[:user_attributes][:username])
-    puts faculty
+    faculty = Faculty.all.find do |faculty|
+      faculty.user.username == params[:user_attributes][:username]
+    end
 
-    render json: UserSerializer.new(faculty.user).to_serialized_json
+    if faculty
+      render json: {message: "failure"}
+    else
+      faculty = Faculty.create(faculty_params)
+      user = User.new(faculty_params[:user_attributes])
+      user.assign_attributes(userable: faculty)
+
+      render json: UserSerializer.new(user).to_serialized_json
+    end
   end
 
 private

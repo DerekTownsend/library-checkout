@@ -240,3 +240,66 @@ function fetchCurrentItemInfo(item) {
   .then(response => response.json())
   .then(json => processEdit(item, json, showURL))
 }
+function getCommonUserItems(form) {
+  // console.log(form.children[2].children);
+
+  const username = form.children[1].value;
+  const name = form.children[2].children[1].value;
+  const address = form.children[2].children[3].value;
+
+  return {username, name, address};
+}
+function buildFacultyObJ(form) {
+  const commonItems = getCommonUserItems(form);
+  const facultyObj = {
+    years_of_service: form.children[2].children[6].children[1].value,
+    user_attributes: commonItems
+  }
+  return facultyObj;
+}
+
+function buildStudentObJ(form) {
+  const commonItems = getCommonUserItems(form);
+  const studentObj = {
+    major: form.children[2].children[6].children[1].value,
+    gpa: form.children[2].children[6].children[3].value,
+    user_attributes: commonItems
+  }
+  return studentObj;
+}
+
+function registerRequest(form) {
+  const userType = form.querySelector("select").value
+  let url;
+  let bodyObj;
+  // console.log(form.children);
+  if (userType === "Faculty") {
+    url = FACULTIES_URL;
+    bodyObj = buildFacultyObJ(form)
+    FACULTY_LOGGED_IN = true;
+  } else if(userType === "Student"){
+    url = STUDENTS_URL;
+    bodyObj = buildStudentObJ(form)
+  }
+  const reqObj = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyObj)
+  }
+  // console.log(reqObj);
+
+  fetch(url, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    if (json.message === "failure") {
+      alert("User Exist")
+    }else{
+      form.parentNode.parentNode.classList.add("hidden")
+      document.body.classList.remove("no-scroll")
+      displayLibrary();
+
+    }
+  })
+}

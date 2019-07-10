@@ -26,6 +26,14 @@ function getCommonElements() {
   deleteBtn.classList.add("delete");
   editBtn.textContent = "Edit";
   editBtn.classList.add("edit");
+
+  if (FACULTY_LOGGED_IN) {
+    deleteBtn.style.display = "block"
+    editBtn.style.display = "block"
+  }else {
+    deleteBtn.style.display = "none"
+    editBtn.style.display = "none"
+  }
   buttonsDiv.classList.add("buttons");
 
   buttonsDiv.append(checkoutBtn, editBtn, deleteBtn);
@@ -151,6 +159,7 @@ function displayStudentOptions(formDiv) {
 
   gpaInput.setAttribute("type","number")
   gpaInput.setAttribute("name","gpa")
+  gpaInput.setAttribute("step","0.01")
   gpaInput.setAttribute("required","")
   gpaInput.id = "gpa"
 
@@ -361,7 +370,7 @@ function generateLoginFormElements() {
   const regButton = document.createElement("button")
 
   // submitInput.
-  regButton.textContent = "Register"
+  regButton.textContent = "Register Now"
   regButton.classList.add("register-btn")
   header.textContent = "Login"
 
