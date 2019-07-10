@@ -134,11 +134,52 @@ function displayConferenceProceedingsOptions(formDiv) {
   formDiv.append(editorLabel, editorInput, dateLabel, dateInput,locationLabel, locationInput)
 }
 
+function displayStudentOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const majorInput = document.createElement("input")
+  const majorLabel = document.createElement("label")
+  const gpaInput = document.createElement("input")
+  const gpaLabel = document.createElement("label")
+
+  majorInput.setAttribute("type","text")
+  majorInput.setAttribute("name","major")
+  majorInput.setAttribute("required","")
+  majorInput.id = "major"
+
+  majorLabel.setAttribute("for","major")
+  majorLabel.textContent = "Major: "
+
+  gpaInput.setAttribute("type","number")
+  gpaInput.setAttribute("name","gpa")
+  gpaInput.setAttribute("required","")
+  gpaInput.id = "gpa"
+
+  gpaLabel.setAttribute("for","gpa")
+  gpaLabel.textContent = "GPA: "
+
+  formDiv.append(majorLabel, majorInput, gpaLabel, gpaInput)
+}
+
+function displayFacultyOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const yearsOfServiceInput = document.createElement("input")
+  const yearsOfServiceLabel = document.createElement("label")
+
+  yearsOfServiceInput.setAttribute("type","number")
+  yearsOfServiceInput.setAttribute("name","years_of_service")
+  yearsOfServiceInput.setAttribute("required","")
+  yearsOfServiceInput.id = "yearsOfService"
+
+  yearsOfServiceLabel.setAttribute("for","yearsOfService")
+  yearsOfServiceLabel.textContent = "Years Of Service: "
+
+  formDiv.append(yearsOfServiceLabel, yearsOfServiceInput)
+}
+
 function formModule() {
   const overlay = document.querySelector("#add-overlay")
-  const body = document.querySelector("body")
 
-  body.classList.add("no-scroll")
+  document.body.classList.add("no-scroll")
   overlay.classList.remove("hidden")
 }
 function closeModule() {
@@ -223,6 +264,7 @@ function displayItems(libraryItems) {
 
   }
 }
+
 function processEdit(currentItem, databaseItem, url) {
 
   // console.log(currentItem.children);
@@ -257,6 +299,120 @@ function processEdit(currentItem, databaseItem, url) {
     editForm.children[10].children[5].value = databaseItem.location
   }
 }
+
 function removeItemLocally(item) {
   item.remove()
+}
+
+function generateRegisterFormElements() {
+  const registerDiv = document.createElement("div");
+  const registerDivOptions= document.createElement("div");
+  const nameLabel = document.createElement("label");
+  const nameInput = document.createElement("input");
+  const addressLabel = document.createElement("label");
+  const addressInput = document.createElement("input");
+  const dropdownLabel = document.createElement("label");
+  const typeDropdown = document.createElement("select");
+  dropdownLabel.textContent = "Role";
+
+  nameInput.setAttribute("type","text");
+  nameInput.setAttribute("name","name");
+  nameInput.setAttribute("required","");
+  nameInput.id = "name";
+
+  nameLabel.setAttribute("for","name");
+  nameLabel.textContent = "Name: ";
+
+  addressInput.setAttribute("type","text");
+  addressInput.setAttribute("name","address");
+  addressInput.setAttribute("required","");
+  addressInput.id = "address";
+
+  addressLabel.setAttribute("for","address");
+  addressLabel.textContent = "Address: ";
+
+  typeDropdown.classList.add("student-faculty-filter");
+  typeDropdown.setAttribute("required","");
+
+  typeDropdown.innerHTML =
+  `<option value="">Select One …</option>
+  <option value="Student">Student</option>
+  <option value="Faculty">Faculty</option>`;
+
+  // const dropDrownOptions = regForm.querySelector(".student-faculty-filter")
+  // dropDrownOptions.addEventListener("change", displayFormOptions)
+  registerDiv.classList.add("all-reg-options")
+  registerDivOptions.classList.add("reg-form-options")
+  registerDiv.append(nameLabel, nameInput, addressLabel, addressInput, dropdownLabel,typeDropdown,registerDivOptions)
+
+  return registerDiv;
+}
+
+
+
+function generateLoginFormElements() {
+  const overlay = document.createElement("div");
+  const formModule = document.createElement("div");
+  const header = document.createElement("h2");
+  const form = document.createElement("form");
+  const usernameLabel = document.createElement("label");
+  const usernameInput = document.createElement("input");
+  const submitInput = document.createElement("input");
+  const regButton = document.createElement("button")
+
+  // submitInput.
+  regButton.textContent = "Register"
+  regButton.classList.add("register-btn")
+  header.textContent = "Login"
+
+  submitInput.setAttribute("type","submit")
+  submitInput.value = "Login"
+
+  usernameInput.setAttribute("type","text")
+  usernameInput.setAttribute("name","username")
+  usernameInput.setAttribute("required","")
+  usernameInput.id = "username"
+
+  usernameLabel.setAttribute("for","username")
+  usernameLabel.textContent = "Username: "
+
+  form.classList.add("login-form")
+  formModule.classList.add("module")
+  overlay.classList.add("overlay")
+
+  form.addEventListener("submit", loginUser)
+  // regButton.addEventListener("click", e => addRegisterElements(e,form))
+
+  form.append(usernameLabel,usernameInput,submitInput)
+  formModule.append(header,form,regButton)
+  overlay.appendChild(formModule)
+
+  return {overlay,form};
+}
+
+function loginFormModule() {
+  const loginFormElements = generateLoginFormElements();
+  document.body.prepend(loginFormElements.overlay)
+  document.body.classList.add("no-scroll")
+
+  return loginFormElements.form
+}
+function showRegister(e) {
+  const loginBtn = document.createElement("button")
+  document.querySelector(".module h2").textContent = "Register"
+  loginBtn.textContent = "Already Have Account"
+  loginBtn.classList.add("login-instead")
+  e.target.parentNode.insertBefore(loginBtn,e.target)
+
+  e.target.style.display = "none"
+  return loginBtn
+}
+function loginInstead() {
+  const regBtn = document.querySelector(".register-btn")
+  const regOptions = document.querySelector(".all-reg-options")
+  document.querySelector(".module h2").textContent = "Login"
+
+  regOptions.remove();
+  document.querySelector(".login-instead").remove()
+  regBtn.style.display = "block";
 }

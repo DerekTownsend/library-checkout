@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_08_160925) do
+ActiveRecord::Schema.define(version: 2019_07_10_150942) do
 
   create_table "books", force: :cascade do |t|
     t.string "author"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 2019_07_08_160925) do
     t.string "location"
     t.date "date"
     t.string "editor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "faculties", force: :cascade do |t|
+    t.integer "years_of_service"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -52,6 +58,24 @@ ActiveRecord::Schema.define(version: 2019_07_08_160925) do
     t.date "date_of_pub"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.string "major"
+    t.float "gpa"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "username"
+    t.string "address"
+    t.string "userable_type"
+    t.integer "userable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["userable_type", "userable_id"], name: "index_users_on_userable_type_and_userable_id"
   end
 
 end

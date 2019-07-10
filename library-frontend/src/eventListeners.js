@@ -1,3 +1,14 @@
+function addRegisterElements(e,form) {
+  const regFormElements = generateRegisterFormElements();
+  form.insertBefore(regFormElements,form.lastChild)
+  const dropDrownOptions = form.querySelector(".student-faculty-filter")
+  // dropDrownOptions.addEventListener()
+  // displayFormOptions()
+  dropDrownOptions.addEventListener("change", chooseFormOptions)
+  const loginChoice = showRegister(e)
+  loginChoice.addEventListener("click", loginInstead)
+}
+
 function filterResults(choice) {
   const newChoice = choice.target.value;
   document.querySelector("main").innerHTML = ''
@@ -63,16 +74,21 @@ function submitUpdatedItem(e, currentItem) {
   currentItem.remove()
 }
 function chooseFormOptions(option) {
-  const formOptions = document.querySelector(".form-options")
+  const createFormOptions = document.querySelector(".form-options")
+  const regFormOptions = document.querySelector(".reg-form-options")
 
   if (option.target.value == "Book") {
-    displayBooksOptions(formOptions)
+    displayBooksOptions(createFormOptions)
   }else if (option.target.value == "Journal") {
-    displayJournalsOptions(formOptions)
+    displayJournalsOptions(createFormOptions)
   }else if (option.target.value == "Magazine") {
-    displayMagazinesOptions(formOptions)
+    displayMagazinesOptions(createFormOptions)
   }else if (option.target.value == "ConferenceProceeding") {
-    displayConferenceProceedingsOptions(formOptions)
+    displayConferenceProceedingsOptions(createFormOptions)
+  }else if (option.target.value == "Student") {
+    displayStudentOptions(regFormOptions)
+  }else if (option.target.value == "Faculty") {
+    displayFacultyOptions(regFormOptions)
   }
 }
 
@@ -118,8 +134,26 @@ function buttonFunctionality(click) {
     closeModule()
   }
 }
+function loginUser(e) {
+  e.preventDefault()
+  // console.log(e.target.children.length);
+  if (e.target.children.length === 3) {
+    console.log("Login Request");
+  }else{
+    console.log(e.target);
+  }
+  // console.log("Log");
+}
+
+
+
 function addAllListeners() {
   const dropDown = document.querySelector(".filter")
+  const registrationBtn = document.querySelector(".register-btn")
+  const regForm = registrationBtn.parentNode.querySelector("form")
+  registrationBtn.addEventListener("click", e => addRegisterElements(e,regForm))
+
+
   dropDown.addEventListener("change", filterResults)
   document.body.addEventListener("click", buttonFunctionality)
 }

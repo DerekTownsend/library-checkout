@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :faculties
+  resources :students
+  resources :users
   resources :books
   resources :conference_proceedings
   resources :journals

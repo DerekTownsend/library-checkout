@@ -3,6 +3,11 @@ Book.destroy_all
 Journal.destroy_all
 Magazine.destroy_all
 ConferenceProceeding.destroy_all
+
+User.destroy_all
+Student.destroy_all
+Faculty.destroy_all
+
 # JOURNALS
 LibraryItem.create(description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dapibus dui pretium mauris lacinia, eu luctus ligula lobortis. Donec auctor lorem eget viverra ullamcorper. Suspendisse dignissim auctor purus, at convallis ante ornare et. Vestibulum bibendum tellus sed dapibus maximus. In consectetur quis tortor ac posuere.", url: "https://afinde-production.s3.amazonaws.com/uploads/0b63add8-b096-41f7-a64f-6f766979a1ae.jpg", publisher:'Penguin Publishing',  name: 'Journal: Za Wordo',  checkout_date: '2019-01-01', return_date: '2020-01-09',  libraryable: Journal.create(number: 1));
 
@@ -45,3 +50,7 @@ LibraryItem.create(description: "Lorem ipsum dolor sit amet, consectetur adipisc
 LibraryItem.create(description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dapibus dui pretium mauris lacinia, eu luctus ligula lobortis. Donec auctor lorem eget viverra ullamcorper. Suspendisse dignissim auctor purus, at convallis ante ornare et. Vestibulum bibendum tellus sed dapibus maximus. In consectetur quis tortor ac posuere.", url: "https://i.kym-cdn.com/photos/images/newsfeed/000/726/412/3f4.jpg", publisher:'German Penguin Publishing',  name: 'ConferenceProceeding: EMERALD GREEN',  checkout_date: '2019-01-01', return_date: '2020-01-09',  libraryable: ConferenceProceeding.create(location: "618 Voss, Houston, TX", date: '2010-01-09', editor: "Dave Matthews"));
 
 LibraryItem.create(description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dapibus dui pretium mauris lacinia, eu luctus ligula lobortis. Donec auctor lorem eget viverra ullamcorper. Suspendisse dignissim auctor purus, at convallis ante ornare et. Vestibulum bibendum tellus sed dapibus maximus. In consectetur quis tortor ac posuere.", url: "http://www.pmslweb.com/the-blog/wp-content/uploads/2017/07/25-pyrokinesis-for-beginners-funny-book-cover.jpg", publisher:'New York Penguin Publishing',  name: 'ConferenceProceeding: Detroit: How',  checkout_date: '2019-01-01', return_date: '2020-01-09',  libraryable: ConferenceProceeding.create(location:"638 Voss, Houston, TX", date: '2010-01-09', editor: "James Sunderland"));
+
+User.create(username:"admin", name:"admin", address:"Hell", userable: Faculty.create(years_of_service: 25))
+
+User.create(username:"failure", name:"Dave Johnson", address:"111 S Vernon Ave", userable: Student.create(gpa: 1.1, major: "Prison"))
