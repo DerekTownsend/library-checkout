@@ -151,7 +151,7 @@ function closeModule() {
 
 function generateJournalElements(specifics) {
   const number = document.createElement("p")
-  number.textContent = `Number: ${specifics.number}`
+  number.innerHTML = `Number: <span>${specifics.number}</span>`
   return number
 }
 
@@ -186,6 +186,8 @@ function generateConferenceElements(specifics) {
 function displayItem(libraryItem, specifics) {
   const main = document.querySelector("main");
   let commonElements = getCommonElements();
+  commonElements.item.setAttribute("data-library-type",libraryItem.libraryable_type)
+  commonElements.item.setAttribute("data-library-id",specifics.id)
   commonElements.img.src = libraryItem.url;
   commonElements.name.textContent = libraryItem.name;
   commonElements.description.textContent = libraryItem.description;
@@ -208,7 +210,7 @@ function displayItem(libraryItem, specifics) {
     commonElements.itemInfo.append(conferenceElements.editor, conferenceElements.location, conferenceElements.date)
   }
 
-  main.appendChild(commonElements.item);
+  main.prepend(commonElements.item);
 }
 
 function displayItems(libraryItems) {
@@ -220,4 +222,41 @@ function displayItems(libraryItems) {
     }
 
   }
+}
+function processEdit(currentItem, databaseItem, url) {
+
+  // console.log(currentItem.children);
+  const editForm = document.querySelector("form.add-library-item")
+  let editURL = url+"/edit";
+  // console.log(databaseItem);
+  editForm.children[1].value = databaseItem.library_item.name;
+  editForm.children[3].value = databaseItem.library_item.publisher;
+  editForm.children[5].value = databaseItem.library_item.description;
+  editForm.children[7].value = databaseItem.library_item.url;
+
+  const choiceDropDown = editForm.querySelector(".item-type")
+
+  choiceDropDown.addEventListener("change", chooseFormOptions)
+  choiceDropDown.value = currentItem.dataset.libraryType;
+  choiceDropDown.dispatchEvent(new Event('change'))
+
+  choiceDropDown.setAttribute("disabled","disabled")
+
+  if (currentItem.dataset.libraryType == "Book") {
+    editForm.children[10].children[1].value = databaseItem.author
+    editForm.children[10].children[3].value = databaseItem.volume
+
+  } else if (currentItem.dataset.libraryType == "Journal") {
+    editForm.children[10].children[1].value = databaseItem.number
+  } else if (currentItem.dataset.libraryType == "Magazine") {
+    editForm.children[10].children[1].value = databaseItem.type_of_mag
+    editForm.children[10].children[3].value = databaseItem.date_of_pub
+  } else if (currentItem.dataset.libraryType == "ConferenceProceeding") {
+    editForm.children[10].children[1].value = databaseItem.editor
+    editForm.children[10].children[3].value = databaseItem.date
+    editForm.children[10].children[5].value = databaseItem.location
+  }
+}
+function removeItemLocally(item) {
+  item.remove()
 }
