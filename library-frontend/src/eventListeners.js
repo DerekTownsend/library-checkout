@@ -115,20 +115,38 @@ function editItem(click) {
   editedForm.addEventListener("submit", e => submitUpdatedItem(e, currentItem))
 }
 function checkoutItem(click) {
-  console.log("checkout");
-
+  // console.log("WHAR", click);
+  const div = click.parentNode.parentNode
+  const userId = document.body.dataset.userId
+  const libraryItemId = div.dataset.libraryItemId
+  checkoutItemRequest(userId, libraryItemId, div);
+}
+function returnItem(click) {
+  // console.log("WHAR", click);
+  const div = click.parentNode.parentNode
+  const userId = document.body.dataset.userId
+  const libraryItemId = div.dataset.libraryItemId
+  returnItemRequest(userId, libraryItemId, div);
 }
 
 function buttonFunctionality(click) {
   // console.log(click.target.classList);
   if (click.target.classList.contains("checkout")) {
     checkoutItem(click.target);
+  }else if (click.target.classList.contains("return")) {
+    returnItem(click.target);
   }else if (click.target.classList.contains("edit")) {
     editItem(click.target);
   }else if (click.target.classList.contains("delete")) {
     deleteItem(click.target);
   }else if (click.target.classList.contains("add-item")) {
     addItem();
+  }else if (click.target.classList.contains("close-check-menu") || click.target.classList.contains("check-menu-icon")) {
+    // console.log("click");
+    closeNav();
+  }else if (click.target.classList.contains("open-check-menu")) {
+    // console.log("click");
+    openNav();
   }else if (click.target.classList.contains("exit") || click.target.classList.contains("fas")) {
     resetForm()
     closeModule()

@@ -14,7 +14,7 @@ class JournalsController < ApplicationController
     libraryItem = LibraryItem.new(journal_params[:library_item_attributes])
     libraryItem.assign_attributes(libraryable: journal)
 
-    render json: LibraryItemSerializer.new(libraryItem).to_serialized_json
+    render json: LibraryItemSerializer.new(journal.libraryItem).to_serialized_json
   end
 
   def update

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_150942) do
+ActiveRecord::Schema.define(version: 2019_07_11_170502) do
 
   create_table "books", force: :cascade do |t|
     t.string "author"
@@ -50,7 +50,9 @@ ActiveRecord::Schema.define(version: 2019_07_10_150942) do
     t.integer "libraryable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["libraryable_type", "libraryable_id"], name: "index_library_items_on_libraryable_type_and_libraryable_id"
+    t.index ["user_id"], name: "index_library_items_on_user_id"
   end
 
   create_table "magazines", force: :cascade do |t|

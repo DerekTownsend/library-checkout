@@ -14,7 +14,7 @@ class BooksController < ApplicationController
     libraryItem = LibraryItem.new(book_params[:library_item_attributes])
     libraryItem.assign_attributes(libraryable: book)
 
-    render json: LibraryItemSerializer.new(libraryItem).to_serialized_json
+    render json: LibraryItemSerializer.new(book.library_item).to_serialized_json
   end
 
   def update

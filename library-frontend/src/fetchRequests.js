@@ -24,6 +24,7 @@ function displayConferenceProceedings() {
   .then(json => displayItems(json))
 }
 
+
 function resetForm(){
   document.querySelector("input.reset").click()
 }
@@ -44,9 +45,7 @@ function submitBook(commonItems, author, volume) {
 
   fetch(BOOKS_URL, reqObj)
   .then(response => response.json())
-  .then((json) => {
-    displayItem(json, json.libraryable);
-  })
+  .then((json) => displayItem(json, json.libraryable))
 }
 
 function submitJournal(commonItems, number) {
@@ -220,7 +219,12 @@ function deleteLibraryItem(item) {
 
   fetch(deleteURL, reqObj)
   .then(response => response.json())
-  .then(json => removeItemLocally(item))
+  .then(json => {
+    removeItemLocally(item)
+    // console.log(currentLoggedInUser);
+  })
+  
+
 }
 
 function fetchCurrentItemInfo(item) {
@@ -297,6 +301,7 @@ function registerRequest(form) {
       alert("User Exist")
     }else{
       // console.log(json);
+      currentLoggedInUser = json;
       addDataIdToBody(json.id);
       removeLoginModule(form)
       displayLibrary();
@@ -321,13 +326,60 @@ function loginRequest(form) {
     if (json.message === "failure") {
       alert("Incorrect Username")
     }else{
-      // console.log(json);
       if (json.userable_type === "Faculty") {
         FACULTY_LOGGED_IN = true;
       }
+      currentLoggedInUser = json;
       addDataIdToBody(json.id);
       removeLoginModule(form)
       displayLibrary();
     }
+  })
+}
+
+function checkoutItemRequest(userId, libraryItemId, div) {
+  const reqObj = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({})
+  }
+  fetch(`${USERS_URL}/${userId}/users_checkout/${libraryItemId}`, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    currentLoggedInUser = json;
+    div.querySelector("button.checkout").style.display = "none";
+    div.querySelector("button.return").style.display = "block";
+    displayCheckoutInfo()
+  })
+}
+
+function returnItemRequest(userId, libraryItemId, div) {
+  const reqObj = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({})
+  }
+  fetch(`${USERS_URL}/${userId}/users_return/${libraryItemId}`, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    currentLoggedInUser = json;
+    // console.log(json);
+    div.querySelector("button.checkout").style.display = "block";
+    div.querySelector("button.return").style.display = "none";
+    displayCheckoutInfo()
+  })
+}
+
+function refreshCurrentLoggedInUser() {
+  fetch(`${USERS_URL}/${currentLoggedInUser.id}`)
+  .then(response => response.json())
+  .then(json => {
+    // console.log(json);
+    currentLoggedInUser = json
+
   })
 }

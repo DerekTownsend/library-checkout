@@ -9,9 +9,10 @@ const FACULTIES_URL = `${BASE_URL}/faculties`
 const STUDENTS_URL = `${BASE_URL}/students`
 const LOGIN_URL = `${BASE_URL}/users_login`
 let FACULTY_LOGGED_IN = false;
+let currentLoggedInUser;
 
 function application() {
-  loginFormModule()
+  loginFormModule();
   addAllListeners();
 
 }

@@ -11,7 +11,11 @@ class UserSerializer
         userable:
           {
             except: %i[created_at updated_at]
-          }
+          },
+          library_items:
+            {
+              except: %i[created_at updated_at]
+            }
         },
       except: %i[created_at updated_at userable]
     }

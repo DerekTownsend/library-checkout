@@ -8,6 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <div class="check-menu">
+      <button type="button" name="button" id="close-check-menu" class="close-check-menu">
+        <i class="fas fa-times fa-2x check-menu-icon"></i>
+      </button>
+
+      <p>Hello <span id="name"> </span>  your checked out library items are:</p>
+
+      <ul>
+
+      </ul>
+    </div>
     <header>
       <h1>Library</h1>
       <button type="button" name="button" class="add-item">Add Library Item</button>
@@ -19,6 +30,7 @@
         <option value="Magazine">Magazines</option>
         <option value="ConferenceProceeding">Conference Proceedings</option>
       </select>
+      <button type="button" name="button" class="open-check-menu">Checked Out Books</button>
     </header>
     <div class="overlay hidden" id = "add-overlay">
       <div class="module">

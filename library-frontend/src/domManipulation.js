@@ -7,6 +7,7 @@ function getCommonElements() {
   const description = document.createElement("p");
   const buttonsDiv = document.createElement("div");
   const checkoutBtn = document.createElement("button");
+  const returnBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
   const editBtn = document.createElement("button");
 
@@ -22,6 +23,8 @@ function getCommonElements() {
 
   checkoutBtn.textContent = "Checkout";
   checkoutBtn.classList.add("checkout");
+  returnBtn.textContent = "Return";
+  returnBtn.classList.add("return");
   deleteBtn.textContent = "Delete";
   deleteBtn.classList.add("delete");
   editBtn.textContent = "Edit";
@@ -36,10 +39,12 @@ function getCommonElements() {
   }
   buttonsDiv.classList.add("buttons");
 
-  buttonsDiv.append(checkoutBtn, editBtn, deleteBtn);
+  returnBtn.style.display = "none";
+
+  buttonsDiv.append(checkoutBtn, returnBtn, editBtn, deleteBtn);
   item.append(img, itemInfo, description, buttonsDiv)
 
-  return {item, img, name, publisher, description, itemInfo};
+  return {item, img, name, publisher, description, itemInfo, checkoutBtn, returnBtn};
 }
 function displayBooksOptions(formDiv) {
   formDiv.innerHTML = ""
@@ -240,9 +245,9 @@ function displayItem(libraryItem, specifics) {
   commonElements.item.setAttribute("data-library-id",specifics.id)
   commonElements.item.setAttribute("data-library-item-id",libraryItem.id)
   commonElements.img.src = libraryItem.url;
-  commonElements.name.textContent = libraryItem.name;
-  commonElements.description.textContent = libraryItem.description;
-  commonElements.publisher.textContent = libraryItem.publisher;
+  commonElements.name.textContent = `Name: ${libraryItem.name}`;
+  commonElements.description.textContent = `Description: ${libraryItem.description}`;
+  commonElements.publisher.textContent = `Publisher: ${libraryItem.publisher}`;
 
   if (libraryItem.libraryable_type == "Journal") {
     const jrnNum = generateJournalElements(specifics)
@@ -261,6 +266,14 @@ function displayItem(libraryItem, specifics) {
     commonElements.itemInfo.append(conferenceElements.editor, conferenceElements.location, conferenceElements.date)
   }
 
+  currentLoggedInUser.library_items.find((book) => {
+    if (book.id === libraryItem.id) {
+      commonElements.checkoutBtn.style.display = "none";
+      commonElements.returnBtn.style.display = "block";
+    }
+  });
+
+
   main.prepend(commonElements.item);
 }
 
@@ -273,6 +286,8 @@ function displayItems(libraryItems) {
     }
 
   }
+  // gatherCheckoutInfo()
+  displayCheckoutInfo()
 }
 
 function processEdit(currentItem, databaseItem, url) {
@@ -312,6 +327,7 @@ function processEdit(currentItem, databaseItem, url) {
 
 function removeItemLocally(item) {
   item.remove()
+
 }
 
 function generateRegisterFormElements() {
@@ -433,7 +449,32 @@ function removeLoginModule(form) {
   document.body.classList.remove("no-scroll")
 }
 function addDataIdToBody(id) {
-  console.log(id);
+  // console.log(id);
   document.body.dataset.userId = id;
 
+}
+function displayCheckoutInfo() {
+  const checkoutMenuUl = document.querySelector(".check-menu ul")
+  // gatherCheckoutInfo()
+  // checkooutMenu
+  // console.log(currentLoggedInUser.library_items);
+  checkoutMenuUl.innerHTML = "";
+  for (libraryItem of currentLoggedInUser.library_items) {
+    const listItem = document.createElement("li")
+    listItem.innerHTML = `Name: ${libraryItem.name}<br>
+     Checkout Date: ${libraryItem.checkout_date}<br>
+     Return Date: ${libraryItem.return_date}`
+     checkoutMenuUl.prepend(listItem)
+  }
+}
+function closeNav() {
+  document.querySelector(".check-menu").style.width = "0";
+  document.querySelector("main").style.margin = "0 5em";
+  document.querySelector("header").style.marginLeft = "0";
+
+}
+function openNav() {
+  document.querySelector(".check-menu").style.width = "300px";
+  document.querySelector("main").style.marginLeft = "300px";
+  document.querySelector("header").style.marginLeft = "300px";
 }
