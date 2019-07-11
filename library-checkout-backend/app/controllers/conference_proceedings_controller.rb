@@ -14,7 +14,7 @@ class ConferenceProceedingsController < ApplicationController
     libraryItem = LibraryItem.new(conference_proceeding_params[:library_item_attributes])
     libraryItem.assign_attributes(libraryable: conference_proceeding)
 
-    render json: LibraryItemSerializer.new(libraryItem).to_serialized_json
+    render json: LibraryItemSerializer.new(conference_proceeding.libraryItem).to_serialized_json
   end
 
   def update

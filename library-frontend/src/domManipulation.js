@@ -7,6 +7,7 @@ function getCommonElements() {
   const description = document.createElement("p");
   const buttonsDiv = document.createElement("div");
   const checkoutBtn = document.createElement("button");
+  const returnBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
   const editBtn = document.createElement("button");
 
@@ -22,16 +23,28 @@ function getCommonElements() {
 
   checkoutBtn.textContent = "Checkout";
   checkoutBtn.classList.add("checkout");
+  returnBtn.textContent = "Return";
+  returnBtn.classList.add("return");
   deleteBtn.textContent = "Delete";
   deleteBtn.classList.add("delete");
   editBtn.textContent = "Edit";
   editBtn.classList.add("edit");
+
+  if (FACULTY_LOGGED_IN) {
+    deleteBtn.style.display = "block"
+    editBtn.style.display = "block"
+  }else {
+    deleteBtn.style.display = "none"
+    editBtn.style.display = "none"
+  }
   buttonsDiv.classList.add("buttons");
 
-  buttonsDiv.append(checkoutBtn, editBtn, deleteBtn);
+  returnBtn.style.display = "none";
+
+  buttonsDiv.append(checkoutBtn, returnBtn, editBtn, deleteBtn);
   item.append(img, itemInfo, description, buttonsDiv)
 
-  return {item, img, name, publisher, description, itemInfo};
+  return {item, img, name, publisher, description, itemInfo, checkoutBtn, returnBtn};
 }
 function displayBooksOptions(formDiv) {
   formDiv.innerHTML = ""
@@ -134,11 +147,53 @@ function displayConferenceProceedingsOptions(formDiv) {
   formDiv.append(editorLabel, editorInput, dateLabel, dateInput,locationLabel, locationInput)
 }
 
+function displayStudentOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const majorInput = document.createElement("input")
+  const majorLabel = document.createElement("label")
+  const gpaInput = document.createElement("input")
+  const gpaLabel = document.createElement("label")
+
+  majorInput.setAttribute("type","text")
+  majorInput.setAttribute("name","major")
+  majorInput.setAttribute("required","")
+  majorInput.id = "major"
+
+  majorLabel.setAttribute("for","major")
+  majorLabel.textContent = "Major: "
+
+  gpaInput.setAttribute("type","number")
+  gpaInput.setAttribute("name","gpa")
+  gpaInput.setAttribute("step","0.01")
+  gpaInput.setAttribute("required","")
+  gpaInput.id = "gpa"
+
+  gpaLabel.setAttribute("for","gpa")
+  gpaLabel.textContent = "GPA: "
+
+  formDiv.append(majorLabel, majorInput, gpaLabel, gpaInput)
+}
+
+function displayFacultyOptions(formDiv) {
+  formDiv.innerHTML = ""
+  const yearsOfServiceInput = document.createElement("input")
+  const yearsOfServiceLabel = document.createElement("label")
+
+  yearsOfServiceInput.setAttribute("type","number")
+  yearsOfServiceInput.setAttribute("name","years_of_service")
+  yearsOfServiceInput.setAttribute("required","")
+  yearsOfServiceInput.id = "yearsOfService"
+
+  yearsOfServiceLabel.setAttribute("for","yearsOfService")
+  yearsOfServiceLabel.textContent = "Years Of Service: "
+
+  formDiv.append(yearsOfServiceLabel, yearsOfServiceInput)
+}
+
 function formModule() {
   const overlay = document.querySelector("#add-overlay")
-  const body = document.querySelector("body")
 
-  body.classList.add("no-scroll")
+  document.body.classList.add("no-scroll")
   overlay.classList.remove("hidden")
 }
 function closeModule() {
@@ -188,10 +243,11 @@ function displayItem(libraryItem, specifics) {
   let commonElements = getCommonElements();
   commonElements.item.setAttribute("data-library-type",libraryItem.libraryable_type)
   commonElements.item.setAttribute("data-library-id",specifics.id)
+  commonElements.item.setAttribute("data-library-item-id",libraryItem.id)
   commonElements.img.src = libraryItem.url;
-  commonElements.name.textContent = libraryItem.name;
-  commonElements.description.textContent = libraryItem.description;
-  commonElements.publisher.textContent = libraryItem.publisher;
+  commonElements.name.textContent = `Name: ${libraryItem.name}`;
+  commonElements.description.textContent = `Description: ${libraryItem.description}`;
+  commonElements.publisher.textContent = `Publisher: ${libraryItem.publisher}`;
 
   if (libraryItem.libraryable_type == "Journal") {
     const jrnNum = generateJournalElements(specifics)
@@ -210,6 +266,14 @@ function displayItem(libraryItem, specifics) {
     commonElements.itemInfo.append(conferenceElements.editor, conferenceElements.location, conferenceElements.date)
   }
 
+  currentLoggedInUser.library_items.find((book) => {
+    if (book.id === libraryItem.id) {
+      commonElements.checkoutBtn.style.display = "none";
+      commonElements.returnBtn.style.display = "block";
+    }
+  });
+
+
   main.prepend(commonElements.item);
 }
 
@@ -222,7 +286,10 @@ function displayItems(libraryItems) {
     }
 
   }
+  // gatherCheckoutInfo()
+  displayCheckoutInfo()
 }
+
 function processEdit(currentItem, databaseItem, url) {
 
   // console.log(currentItem.children);
@@ -257,6 +324,157 @@ function processEdit(currentItem, databaseItem, url) {
     editForm.children[10].children[5].value = databaseItem.location
   }
 }
+
 function removeItemLocally(item) {
   item.remove()
+
+}
+
+function generateRegisterFormElements() {
+  const registerDiv = document.createElement("div");
+  const registerDivOptions= document.createElement("div");
+  const nameLabel = document.createElement("label");
+  const nameInput = document.createElement("input");
+  const addressLabel = document.createElement("label");
+  const addressInput = document.createElement("input");
+  const dropdownLabel = document.createElement("label");
+  const typeDropdown = document.createElement("select");
+  dropdownLabel.textContent = "Role";
+
+  nameInput.setAttribute("type","text");
+  nameInput.setAttribute("name","name");
+  nameInput.setAttribute("required","");
+  nameInput.id = "name";
+
+  nameLabel.setAttribute("for","name");
+  nameLabel.textContent = "Name: ";
+
+  addressInput.setAttribute("type","text");
+  addressInput.setAttribute("name","address");
+  addressInput.setAttribute("required","");
+  addressInput.id = "address";
+
+  addressLabel.setAttribute("for","address");
+  addressLabel.textContent = "Address: ";
+
+  typeDropdown.classList.add("student-faculty-filter");
+  typeDropdown.setAttribute("required","");
+
+  typeDropdown.innerHTML =
+  `<option value="">Select One …</option>
+  <option value="Student">Student</option>
+  <option value="Faculty">Faculty</option>`;
+
+  // const dropDrownOptions = regForm.querySelector(".student-faculty-filter")
+  // dropDrownOptions.addEventListener("change", displayFormOptions)
+  registerDiv.classList.add("all-reg-options")
+  registerDivOptions.classList.add("reg-form-options")
+  registerDiv.append(nameLabel, nameInput, addressLabel, addressInput, dropdownLabel,typeDropdown,registerDivOptions)
+
+  return registerDiv;
+}
+
+
+
+function generateLoginFormElements() {
+  const overlay = document.createElement("div");
+  const formModule = document.createElement("div");
+  const header = document.createElement("h2");
+  const form = document.createElement("form");
+  const usernameLabel = document.createElement("label");
+  const usernameInput = document.createElement("input");
+  const submitInput = document.createElement("input");
+  const regButton = document.createElement("button")
+
+  // submitInput.
+  regButton.textContent = "Register Now"
+  regButton.classList.add("register-btn")
+  header.textContent = "Login"
+
+  submitInput.setAttribute("type","submit")
+  submitInput.value = "Login"
+
+  usernameInput.setAttribute("type","text")
+  usernameInput.setAttribute("name","username")
+  usernameInput.setAttribute("required","")
+  usernameInput.id = "username"
+
+  usernameLabel.setAttribute("for","username")
+  usernameLabel.textContent = "Username: "
+
+  form.classList.add("login-form")
+  formModule.classList.add("module")
+  overlay.classList.add("overlay")
+
+  form.addEventListener("submit", loginUser)
+  // regButton.addEventListener("click", e => addRegisterElements(e,form))
+
+  form.append(usernameLabel,usernameInput,submitInput)
+  formModule.append(header,form,regButton)
+  overlay.appendChild(formModule)
+
+  return {overlay,form};
+}
+
+function loginFormModule() {
+  const loginFormElements = generateLoginFormElements();
+  document.body.prepend(loginFormElements.overlay)
+  document.body.classList.add("no-scroll")
+
+  return loginFormElements.form
+}
+
+function showRegister(e) {
+  const loginBtn = document.createElement("button")
+  document.querySelector(".module h2").textContent = "Register"
+  loginBtn.textContent = "Already Have Account"
+  loginBtn.classList.add("login-instead")
+  e.target.parentNode.insertBefore(loginBtn,e.target)
+
+  e.target.style.display = "none"
+  return loginBtn
+}
+
+function loginInstead() {
+  const regBtn = document.querySelector(".register-btn")
+  const regOptions = document.querySelector(".all-reg-options")
+  document.querySelector(".module h2").textContent = "Login"
+
+  regOptions.remove();
+  document.querySelector(".login-instead").remove()
+  regBtn.style.display = "block";
+}
+function removeLoginModule(form) {
+  form.parentNode.parentNode.classList.add("hidden")
+  document.body.classList.remove("no-scroll")
+}
+function addDataIdToBody(id) {
+  // console.log(id);
+  document.body.dataset.userId = id;
+
+}
+function displayCheckoutInfo() {
+  const checkoutMenuUl = document.querySelector(".check-menu ul")
+  // gatherCheckoutInfo()
+  // checkooutMenu
+  // console.log(currentLoggedInUser.library_items);
+  checkoutMenuUl.innerHTML = "";
+  for (libraryItem of currentLoggedInUser.library_items) {
+    const listItem = document.createElement("li")
+    listItem.innerHTML = `Name: ${libraryItem.name}<br>
+     Checkout Date: ${libraryItem.checkout_date}<br>
+     Return Date: ${libraryItem.return_date}`
+     checkoutMenuUl.prepend(listItem)
+  }
+}
+function closeNav() {
+  document.querySelector(".check-menu").style.width = "0";
+  document.querySelector("main").style.margin = "0 5em";
+  document.querySelector("header").style.marginLeft = "0";
+
+}
+function openNav() {
+  document.querySelector(".check-menu").style.width = "300px";
+  document.querySelector("main").style.marginLeft = "300px";
+  document.querySelector("header").style.marginLeft = "300px";
 }

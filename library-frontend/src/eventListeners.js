@@ -1,3 +1,14 @@
+function addRegisterElements(e,form) {
+  const regFormElements = generateRegisterFormElements();
+  form.insertBefore(regFormElements,form.lastChild)
+  const dropDrownOptions = form.querySelector(".student-faculty-filter")
+  // dropDrownOptions.addEventListener()
+  // displayFormOptions()
+  dropDrownOptions.addEventListener("change", chooseFormOptions)
+  const loginChoice = showRegister(e)
+  loginChoice.addEventListener("click", loginInstead)
+}
+
 function filterResults(choice) {
   const newChoice = choice.target.value;
   document.querySelector("main").innerHTML = ''
@@ -63,16 +74,21 @@ function submitUpdatedItem(e, currentItem) {
   currentItem.remove()
 }
 function chooseFormOptions(option) {
-  const formOptions = document.querySelector(".form-options")
+  const createFormOptions = document.querySelector(".form-options")
+  const regFormOptions = document.querySelector(".reg-form-options")
 
   if (option.target.value == "Book") {
-    displayBooksOptions(formOptions)
+    displayBooksOptions(createFormOptions)
   }else if (option.target.value == "Journal") {
-    displayJournalsOptions(formOptions)
+    displayJournalsOptions(createFormOptions)
   }else if (option.target.value == "Magazine") {
-    displayMagazinesOptions(formOptions)
+    displayMagazinesOptions(createFormOptions)
   }else if (option.target.value == "ConferenceProceeding") {
-    displayConferenceProceedingsOptions(formOptions)
+    displayConferenceProceedingsOptions(createFormOptions)
+  }else if (option.target.value == "Student") {
+    displayStudentOptions(regFormOptions)
+  }else if (option.target.value == "Faculty") {
+    displayFacultyOptions(regFormOptions)
   }
 }
 
@@ -99,27 +115,62 @@ function editItem(click) {
   editedForm.addEventListener("submit", e => submitUpdatedItem(e, currentItem))
 }
 function checkoutItem(click) {
-  console.log("checkout");
-
+  // console.log("WHAR", click);
+  const div = click.parentNode.parentNode
+  const userId = document.body.dataset.userId
+  const libraryItemId = div.dataset.libraryItemId
+  checkoutItemRequest(userId, libraryItemId, div);
+}
+function returnItem(click) {
+  // console.log("WHAR", click);
+  const div = click.parentNode.parentNode
+  const userId = document.body.dataset.userId
+  const libraryItemId = div.dataset.libraryItemId
+  returnItemRequest(userId, libraryItemId, div);
 }
 
 function buttonFunctionality(click) {
   // console.log(click.target.classList);
   if (click.target.classList.contains("checkout")) {
     checkoutItem(click.target);
+  }else if (click.target.classList.contains("return")) {
+    returnItem(click.target);
   }else if (click.target.classList.contains("edit")) {
     editItem(click.target);
   }else if (click.target.classList.contains("delete")) {
     deleteItem(click.target);
   }else if (click.target.classList.contains("add-item")) {
     addItem();
+  }else if (click.target.classList.contains("close-check-menu") || click.target.classList.contains("check-menu-icon")) {
+    // console.log("click");
+    closeNav();
+  }else if (click.target.classList.contains("open-check-menu")) {
+    // console.log("click");
+    openNav();
   }else if (click.target.classList.contains("exit") || click.target.classList.contains("fas")) {
     resetForm()
     closeModule()
   }
 }
+function loginUser(e) {
+  e.preventDefault()
+  // console.log(e.target.children.length);
+  if (e.target.children.length === 3) {
+    loginRequest(e.target)
+  }else{
+    registerRequest(e.target)
+  }
+}
+
+
+
 function addAllListeners() {
   const dropDown = document.querySelector(".filter")
+  const registrationBtn = document.querySelector(".register-btn")
+  const regForm = registrationBtn.parentNode.querySelector("form")
+  registrationBtn.addEventListener("click", e => addRegisterElements(e,regForm))
+
+
   dropDown.addEventListener("change", filterResults)
   document.body.addEventListener("click", buttonFunctionality)
 }
