@@ -138,12 +138,10 @@ function loginUser(e) {
   e.preventDefault()
   // console.log(e.target.children.length);
   if (e.target.children.length === 3) {
-    console.log("Login Request");
+    loginRequest(e.target)
   }else{
-    // console.log(e.target);
     registerRequest(e.target)
   }
-  // console.log("Log");
 }
 
 

@@ -7,6 +7,7 @@ const CONFERENCE_PROCEEDINGS_URL = `${BASE_URL}/conference_proceedings`
 const USERS_URL = `${BASE_URL}/users`
 const FACULTIES_URL = `${BASE_URL}/faculties`
 const STUDENTS_URL = `${BASE_URL}/students`
+const LOGIN_URL = `${BASE_URL}/users_login`
 let FACULTY_LOGGED_IN = false;
 
 function application() {

@@ -296,10 +296,38 @@ function registerRequest(form) {
     if (json.message === "failure") {
       alert("User Exist")
     }else{
-      form.parentNode.parentNode.classList.add("hidden")
-      document.body.classList.remove("no-scroll")
+      // console.log(json);
+      addDataIdToBody(json.id);
+      removeLoginModule(form)
       displayLibrary();
 
+    }
+  })
+}
+function loginRequest(form) {
+  const bodyObj = {username: form.children[1].value};
+
+  const reqObj = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyObj)
+  }
+
+  fetch(LOGIN_URL, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    if (json.message === "failure") {
+      alert("Incorrect Username")
+    }else{
+      // console.log(json);
+      if (json.userable_type === "Faculty") {
+        FACULTY_LOGGED_IN = true;
+      }
+      addDataIdToBody(json.id);
+      removeLoginModule(form)
+      displayLibrary();
     }
   })
 }

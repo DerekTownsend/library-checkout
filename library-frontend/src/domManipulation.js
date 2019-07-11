@@ -238,6 +238,7 @@ function displayItem(libraryItem, specifics) {
   let commonElements = getCommonElements();
   commonElements.item.setAttribute("data-library-type",libraryItem.libraryable_type)
   commonElements.item.setAttribute("data-library-id",specifics.id)
+  commonElements.item.setAttribute("data-library-item-id",libraryItem.id)
   commonElements.img.src = libraryItem.url;
   commonElements.name.textContent = libraryItem.name;
   commonElements.description.textContent = libraryItem.description;
@@ -406,6 +407,7 @@ function loginFormModule() {
 
   return loginFormElements.form
 }
+
 function showRegister(e) {
   const loginBtn = document.createElement("button")
   document.querySelector(".module h2").textContent = "Register"
@@ -416,6 +418,7 @@ function showRegister(e) {
   e.target.style.display = "none"
   return loginBtn
 }
+
 function loginInstead() {
   const regBtn = document.querySelector(".register-btn")
   const regOptions = document.querySelector(".all-reg-options")
@@ -424,4 +427,13 @@ function loginInstead() {
   regOptions.remove();
   document.querySelector(".login-instead").remove()
   regBtn.style.display = "block";
+}
+function removeLoginModule(form) {
+  form.parentNode.parentNode.classList.add("hidden")
+  document.body.classList.remove("no-scroll")
+}
+function addDataIdToBody(id) {
+  console.log(id);
+  document.body.dataset.userId = id;
+
 }

@@ -24,7 +24,7 @@ class StudentsController < ApplicationController
       user = User.new(student_params[:user_attributes])
       user.assign_attributes(userable: student)
 
-      render json: UserSerializer.new(user).to_serialized_json
+      render json: UserSerializer.new(student.user).to_serialized_json
     end
   end
 
