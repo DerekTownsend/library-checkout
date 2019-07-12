@@ -471,10 +471,12 @@ function closeNav() {
   document.querySelector(".check-menu").style.width = "0";
   document.querySelector("main").style.margin = "0 5em";
   document.querySelector("header").style.marginLeft = "0";
+  document.querySelector("header").style.width= "100%";
 
 }
 function openNav() {
   document.querySelector(".check-menu").style.width = "300px";
   document.querySelector("main").style.marginLeft = "300px";
   document.querySelector("header").style.marginLeft = "300px";
+  document.querySelector("header").style.width= "70%";
 }

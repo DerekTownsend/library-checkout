@@ -27,7 +27,7 @@ class ConferenceProceedingsController < ApplicationController
     conference_proceeding.date = conference_proceeding_params[:date]
     conference_proceeding.location = conference_proceeding_params[:location]
     conference_proceeding.library_item.attributes = conference_proceeding_params[:library_item_attributes]
-    conference_proceeding.save
+    # conference_proceeding.save
 
     render json: LibraryItemSerializer.new(conference_proceeding.library_item).to_serialized_json
   end

@@ -1,12 +1,14 @@
 @import "https://fonts.googleapis.com/css?family=Oxygen";
 
 body {
-  margin: 0 auto;
+  margin: 13em auto 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
   position: relative;
   font-family: "Oxygen", sans-serif;
+  background-color: black;
+  color: white
 }
 body.no-scroll {
   overflow: hidden;
@@ -21,10 +23,26 @@ main {
   transition: margin-left .5s;
   padding-left: .5em;
 }
+header{
+  text-align: center;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  background-color: #111;
+  top: 0;
+  left: 0;
+  margin: 0;
+  height: 10em;
+  transition: width .5s;
+
+}
+header span{
+  font-size: 1.2em;
+}
 h1 {
   text-align: center;
   font-family: "Oxygen", sans-serif;
-
+  font-size: 2.5em;
 }
 p {
   font-family: "Oxygen", sans-serif;
@@ -71,7 +89,7 @@ p {
   grid-template-areas:
     "img item-info buttons"
     "img description buttons";
-    border-bottom: black solid .2em;
+    border-bottom: white solid .2em;
 }
 .overlay  {
   width: 100%;
@@ -81,7 +99,7 @@ p {
   top: 0;
   position: fixed;
   margin: 0 auto;
-  background-color:rgba(192,192,192,0.4);
+  background-color:rgba(192,192,192,0.9);
   z-index: 2;
 }
 label{
@@ -94,10 +112,25 @@ label{
   left: 0;
   top: 10%;
   position: absolute;
-  background-color: white;
+  background-color: black;
   margin: auto;
   border-radius: 1em;
   padding: .5em;
+  overflow: overlay;
+}
+body::-webkit-scrollbar,
+.module::-webkit-scrollbar
+ {
+  width: .5em;
+  /* right: 2em; */
+  /* background-color: red; */
+  /* border: none */
+}
+body::-webkit-scrollbar-thumb,
+.module::-webkit-scrollbar-thumb
+ {
+  background-color: white;
+  border-radius: 4em;
 }
 .module h2 {
   text-align: center;
@@ -113,10 +146,10 @@ button.exit {
   text-align:right;
   font-size:1em;
   position: absolute;
-  color:black;
+  color: white;
   /* padding: 1em; */
-  top:1%;
-  right:2%;
+  top:3%;
+  left:3%;
 }
 .check-menu{
   height: 100%;
@@ -126,7 +159,7 @@ button.exit {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: black;
+  background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -138,7 +171,7 @@ button.exit {
   top: 1em;
   right: 25px;
   margin-left: 50px;
-  color: white;
+  /* color: white; */
   cursor: pointer;
   background: none;
   border: none;
@@ -148,6 +181,46 @@ button.exit {
 }
 .check-menu li {
   font-size: 1.1em;
+}
+
+.register-btn,
+.login-instead {
+  background: none;
+  border:none;
+  color: #01CDFF;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  margin: 2em auto;
+}
+form{
+  width: 40%;
+  margin: 0 auto;
+  font-size: 1.2em;
+}
+form input,
+form textarea{
+  font-size: .9em;
+  width: 100%;
+  display: block;
+  margin: .4em 0;
+  padding: .2em;
+}
+
+button,
+select,
+input[type=submit],
+input[type=reset]{
+  background-color: black;
+  color: white;
+  font-size: 1.1em;
+  border-radius: .2em;
+}
+input[type=submit],
+input[type=reset]{
+  font-size: 1em;
+  width: 67%;
+  margin: .8em auto;
 }
 @media (max-width: 870px) {
   .grid {
