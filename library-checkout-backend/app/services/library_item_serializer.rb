@@ -11,9 +11,13 @@ class LibraryItemSerializer
         libraryable:
           {
             except: %i[created_at updated_at]
+          },
+        reservations:
+          {
+            except: %i[created_at updated_at]
           }
         },
-      except: %i[created_at updated_at libraryable_id]  
+      except: %i[created_at updated_at libraryable_id]
     }
 
     @library_item.to_json(obj)

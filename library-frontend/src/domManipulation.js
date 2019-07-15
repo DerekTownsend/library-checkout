@@ -7,6 +7,8 @@ function getCommonElements() {
   const description = document.createElement("p");
   const buttonsDiv = document.createElement("div");
   const checkoutBtn = document.createElement("button");
+  const reserveBtn = document.createElement("button");
+  const unReserveBtn = document.createElement("button");
   const returnBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
   const editBtn = document.createElement("button");
@@ -25,6 +27,10 @@ function getCommonElements() {
   checkoutBtn.classList.add("checkout");
   returnBtn.textContent = "Return";
   returnBtn.classList.add("return");
+  reserveBtn.textContent = "Reserve";
+  reserveBtn.classList.add("reserve");
+  unReserveBtn.textContent = "Delete Reservation";
+  unReserveBtn.classList.add("delete-reservation");
   deleteBtn.textContent = "Delete";
   deleteBtn.classList.add("delete");
   editBtn.textContent = "Edit";
@@ -40,11 +46,13 @@ function getCommonElements() {
   buttonsDiv.classList.add("buttons");
 
   returnBtn.style.display = "none";
+  reserveBtn.style.display = "none";
+  unReserveBtn.style.display = "none";
 
-  buttonsDiv.append(checkoutBtn, returnBtn, editBtn, deleteBtn);
+  buttonsDiv.append(checkoutBtn, returnBtn, reserveBtn, unReserveBtn, editBtn, deleteBtn);
   item.append(img, itemInfo, description, buttonsDiv)
 
-  return {item, img, name, publisher, description, itemInfo, checkoutBtn, returnBtn};
+  return {item, img, name, publisher, description, itemInfo, checkoutBtn, returnBtn, reserveBtn, unReserveBtn};
 }
 function displayBooksOptions(formDiv) {
   formDiv.innerHTML = ""
@@ -266,18 +274,44 @@ function displayItem(libraryItem, specifics) {
     commonElements.itemInfo.append(conferenceElements.editor, conferenceElements.location, conferenceElements.date)
   }
 
+  if (libraryItem.user_id != null) {
+     commonElements.reserveBtn.style.display = "block";
+     commonElements.checkoutBtn.style.display = "none";
+     commonElements.returnBtn.style.display = "none";
+  }
+
+  currentLoggedInUser.reservations.find((reservation) => {
+    if (reservation.library_item_id === libraryItem.id) {
+      commonElements.checkoutBtn.style.display = "none";
+      commonElements.returnBtn.style.display = "none";
+      commonElements.reserveBtn.style.display = "none";
+      commonElements.unReserveBtn.style.display = "block";
+      commonElements.unReserveBtn.dataset.reservationId = reservation.id;
+    }
+  });
+
   currentLoggedInUser.library_items.find((book) => {
     if (book.id === libraryItem.id) {
       commonElements.checkoutBtn.style.display = "none";
       commonElements.returnBtn.style.display = "block";
+      commonElements.reserveBtn.style.display = "none";
     }
   });
+
+
 
 
   main.prepend(commonElements.item);
 }
 
 function displayItems(libraryItems) {
+  const headerSpan = document.querySelector("h1 span#name");
+  const addBtn = document.querySelector("button.add-item");
+  headerSpan.textContent = currentLoggedInUser.name
+  
+  if (!FACULTY_LOGGED_IN) {
+    addBtn.style.display = "none";
+  }
   for (libraryItem of libraryItems) {
     if (libraryItem.library_item) {
       displayItem(libraryItem.library_item, libraryItem)
@@ -454,11 +488,11 @@ function addDataIdToBody(id) {
 
 }
 function displayCheckoutInfo() {
-  const checkoutMenuUl = document.querySelector(".check-menu ul")
-  // gatherCheckoutInfo()
-  // checkooutMenu
-  // console.log(currentLoggedInUser.library_items);
+  const checkoutMenuUl = document.querySelector(".check-books ul")
+  const reserveMenuUl = document.querySelector(".reserve-books ul")
+
   checkoutMenuUl.innerHTML = "";
+  reserveMenuUl.innerHTML = "";
   for (libraryItem of currentLoggedInUser.library_items) {
     const listItem = document.createElement("li")
     listItem.innerHTML = `Name: ${libraryItem.name}<br>
@@ -466,17 +500,29 @@ function displayCheckoutInfo() {
      Return Date: ${libraryItem.return_date}`
      checkoutMenuUl.prepend(listItem)
   }
+
+  for (reservation of currentLoggedInUser.reservations) {
+    // console.log(reservation);
+    const listItem = document.createElement("li")
+    listItem.innerHTML = `Name: ${reservation.library_item.name}<br>
+     Items Checkout Date: ${reservation.library_item.checkout_date}<br>
+     Items Return Date: ${reservation.library_item.return_date}`
+     reserveMenuUl.prepend(listItem)
+  }
 }
 function closeNav() {
   document.querySelector(".check-menu").style.width = "0";
+  document.querySelector(".check-menu").style.padding= "0";
   document.querySelector("main").style.margin = "0 5em";
   document.querySelector("header").style.marginLeft = "0";
   document.querySelector("header").style.width= "100%";
 
 }
 function openNav() {
-  document.querySelector(".check-menu").style.width = "300px";
-  document.querySelector("main").style.marginLeft = "300px";
-  document.querySelector("header").style.marginLeft = "300px";
-  document.querySelector("header").style.width= "70%";
+  document.querySelector(".check-menu").style.width = "29%";
+  document.querySelector(".check-menu").style.padding= "1em";
+  document.querySelector("main").style.marginLeft = "32%";
+  document.querySelector("header").style.marginLeft = "31%";
+  document.querySelector("header").style.width= "75%";
+
 }

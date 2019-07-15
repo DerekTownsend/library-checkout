@@ -26,8 +26,11 @@ class ConferenceProceedingsController < ApplicationController
     conference_proceeding.editor = conference_proceeding_params[:editor]
     conference_proceeding.date = conference_proceeding_params[:date]
     conference_proceeding.location = conference_proceeding_params[:location]
+    # puts "ARE YOU DELETING HERE 1"
     conference_proceeding.library_item.attributes = conference_proceeding_params[:library_item_attributes]
-    # conference_proceeding.save
+    # puts "ARE YOU DELETING HERE 2"
+
+    conference_proceeding.save
 
     render json: LibraryItemSerializer.new(conference_proceeding.library_item).to_serialized_json
   end

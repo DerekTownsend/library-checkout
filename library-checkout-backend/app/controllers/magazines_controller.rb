@@ -26,7 +26,7 @@ class MagazinesController < ApplicationController
     magazine.date_of_pub = magazine_params[:date_of_pub]
     magazine.type_of_mag = magazine_params[:type_of_mag]
     magazine.library_item.attributes = magazine_params[:library_item_attributes]
-    # magazine.save
+    magazine.save
 
     render json: LibraryItemSerializer.new(magazine.library_item).to_serialized_json
   end

@@ -98,6 +98,7 @@ function addItem() {
   const choiceDropDown = addForm.querySelector(".item-type")
   choiceDropDown.removeAttribute("disabled")
   choiceDropDown.addEventListener("change", chooseFormOptions)
+  addForm.removeEventListener("submit", submitUpdatedItem);
   addForm.addEventListener("submit", submitNewItem)
 }
 function deleteItem(click) {
@@ -111,7 +112,7 @@ function editItem(click) {
   const currentItem = click.parentNode.parentNode;
   fetchCurrentItemInfo(currentItem)
   const editedForm = document.querySelector("form.add-library-item")
-
+  editedForm.removeEventListener("submit", submitNewItem);
   editedForm.addEventListener("submit", e => submitUpdatedItem(e, currentItem))
 }
 function checkoutItem(click) {
@@ -128,13 +129,29 @@ function returnItem(click) {
   const libraryItemId = div.dataset.libraryItemId
   returnItemRequest(userId, libraryItemId, div);
 }
-
+function reserveItem(click) {
+  // console.log("here");
+  const div = click.parentNode.parentNode
+  const userId = document.body.dataset.userId
+  const libraryItemId = div.dataset.libraryItemId
+  reserveItemRequest(userId, libraryItemId, div);
+}
+function unReserveItem(click) {
+  // console.log("dsadhere");
+  const reservationId = click.dataset.reservationId
+  const div = click.parentNode.parentNode
+  unReserveItemRequest(reservationId, div);
+}
 function buttonFunctionality(click) {
   // console.log(click.target.classList);
   if (click.target.classList.contains("checkout")) {
     checkoutItem(click.target);
   }else if (click.target.classList.contains("return")) {
     returnItem(click.target);
+  }else if (click.target.classList.contains("reserve")) {
+    reserveItem(click.target);
+  }else if (click.target.classList.contains("delete-reservation")) {
+    unReserveItem(click.target);
   }else if (click.target.classList.contains("edit")) {
     editItem(click.target);
   }else if (click.target.classList.contains("delete")) {

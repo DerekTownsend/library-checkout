@@ -26,7 +26,7 @@ class BooksController < ApplicationController
     book.author = book_params[:author]
     book.volume = book_params[:volume]
     book.library_item.attributes = book_params[:library_item_attributes]
-    # book.save
+    book.save
 
     render json: LibraryItemSerializer.new(book.library_item).to_serialized_json
   end

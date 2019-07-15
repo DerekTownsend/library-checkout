@@ -12,15 +12,26 @@
       <button type="button" name="button" id="close-check-menu" class="close-check-menu">
         <i class="fas fa-times fa-2x check-menu-icon"></i>
       </button>
+      <div class="check-books">
 
-      <p>Hello <span id="name"> </span>  your checked out library items are:</p>
+        <p>Your checked out library items are:</p>
 
-      <ul>
+        <ul class="check-list">
+
+        </ul>
+    </div>
+    <div class="reserve-books">
+
+      <p>Your reserved library items are:</p>
+
+      <ul class="check-list">
 
       </ul>
+  </div>
     </div>
     <header>
-      <h1>Library</h1>
+      <h1>Hello <span id="name"> </span></h1>
+      <h2>Welcome to the Library</h2>
       <span>Show: </span>
       <select class="filter" name="filter">
         <option value="All">All</option>
@@ -30,7 +41,7 @@
         <option value="ConferenceProceeding">Conference Proceedings</option>
       </select>
       <button type="button" name="button" class="add-item">Add Library Item</button>
-      <button type="button" name="button" class="open-check-menu">Checked Out Books</button>
+      <button type="button" name="button" class="open-check-menu">Checked Out/ Reserved Books</button>
     </header>
     <div class="overlay hidden" id = "add-overlay">
       <div class="module">

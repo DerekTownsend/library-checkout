@@ -25,7 +25,7 @@ class JournalsController < ApplicationController
 
     journal.number = journal_params[:number]
     journal.library_item.attributes = journal_params[:library_item_attributes]
-    # journal.save
+    journal.save
 
     render json: LibraryItemSerializer.new(journal.library_item).to_serialized_json
   end

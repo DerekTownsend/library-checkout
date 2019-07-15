@@ -1,7 +1,7 @@
 @import "https://fonts.googleapis.com/css?family=Oxygen";
 
 body {
-  margin: 13em auto 0;
+  margin: 16em auto 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
@@ -32,11 +32,11 @@ header{
   top: 0;
   left: 0;
   margin: 0;
-  height: 10em;
+  height: 14em;
   transition: width .5s;
 
 }
-header span{
+header span select{
   font-size: 1.2em;
 }
 h1 {
@@ -70,7 +70,7 @@ p {
   display: block;
   text-align: center;
   width: 100%;
-  height: 2em;
+  max-height: 3em;
 }
 .item-info p {
    margin: .5em;
@@ -119,7 +119,8 @@ label{
   overflow: overlay;
 }
 body::-webkit-scrollbar,
-.module::-webkit-scrollbar
+.module::-webkit-scrollbar,
+.check-menu::-webkit-scrollbar
  {
   width: .5em;
   /* right: 2em; */
@@ -127,7 +128,8 @@ body::-webkit-scrollbar,
   /* border: none */
 }
 body::-webkit-scrollbar-thumb,
-.module::-webkit-scrollbar-thumb
+.module::-webkit-scrollbar-thumb,
+.check-menu::-webkit-scrollbar-thumb
  {
   background-color: white;
   border-radius: 4em;
@@ -145,11 +147,11 @@ button.exit {
   border:none;
   text-align:right;
   font-size:1em;
-  position: absolute;
+  position: fixed;
   color: white;
   /* padding: 1em; */
-  top:3%;
-  left:3%;
+  /* top:3%;
+  left:3%; */
 }
 .check-menu{
   height: 100%;
@@ -164,7 +166,8 @@ button.exit {
   transition: 0.5s;
   padding-top: 60px;
   color:white;
-
+  overflow-y: overlay;
+  /* padding: 2em; */
 }
 .check-menu .close-check-menu {
   position: absolute;
@@ -180,9 +183,13 @@ button.exit {
   font-size: 1.5em;
 }
 .check-menu li {
+  margin-bottom: .5em;
   font-size: 1.1em;
 }
-
+.check-menu div {
+  margin-top: 3em;
+  border-top: .2em solid white;
+}
 .register-btn,
 .login-instead {
   background: none;

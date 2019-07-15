@@ -15,7 +15,16 @@ class UserSerializer
           library_items:
             {
               except: %i[created_at updated_at]
-            }
+            },
+          reservations:
+            {
+              include:
+              {
+                library_item:{
+                  except: %i[created_at updated_at]
+                }
+              },except: %i[created_at updated_at]
+            },
         },
       except: %i[created_at updated_at userable]
     }

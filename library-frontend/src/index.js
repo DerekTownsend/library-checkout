@@ -8,6 +8,7 @@ const USERS_URL = `${BASE_URL}/users`
 const FACULTIES_URL = `${BASE_URL}/faculties`
 const STUDENTS_URL = `${BASE_URL}/students`
 const LOGIN_URL = `${BASE_URL}/users_login`
+const RESERVATIONS_URL = `${BASE_URL}/reservations`
 let FACULTY_LOGGED_IN = false;
 let currentLoggedInUser;
 

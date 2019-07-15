@@ -223,7 +223,7 @@ function deleteLibraryItem(item) {
     removeItemLocally(item)
     // console.log(currentLoggedInUser);
   })
-  
+
 
 }
 
@@ -371,6 +371,51 @@ function returnItemRequest(userId, libraryItemId, div) {
     div.querySelector("button.checkout").style.display = "block";
     div.querySelector("button.return").style.display = "none";
     displayCheckoutInfo()
+  })
+}
+
+function reserveItemRequest(userId, libraryItemId, div) {
+  const bodyObj = {
+    user_id: userId,
+    library_item_id: libraryItemId
+  }
+  const reqObj = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyObj)
+  }
+  fetch(RESERVATIONS_URL, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    currentLoggedInUser = json;
+    div.querySelector("button.reserve").style.display = "none";
+    div.querySelector("button.delete-reservation").style.display = "block";
+
+    json.reservations.find((reservation) => {
+      if (reservation.library_item_id = libraryItemId) {
+        div.querySelector("button.delete-reservation").dataset.reservationId = reservation.id
+      }
+      displayCheckoutInfo()
+    })
+  })
+}
+
+function unReserveItemRequest(reservationId, div) {
+
+  const reqObj = {
+    method: "DELETE"
+  }
+  fetch(`${RESERVATIONS_URL}/${reservationId}`, reqObj)
+  .then(response => response.json())
+  .then((json) => {
+    // console.log(json);
+    currentLoggedInUser = json;
+    div.querySelector("button.reserve").style.display = "block";
+    div.querySelector("button.delete-reservation").style.display = "none";
+    displayCheckoutInfo()
+
   })
 }
 
