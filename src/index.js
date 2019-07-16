@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "https://library-checkout-backend.herokuapp.com"
 const LIBRARY_ITEMS_URL = `${BASE_URL}/library_items`
 const BOOKS_URL = `${BASE_URL}/books`
 const MAGAZINES_URL = `${BASE_URL}/magazines`
