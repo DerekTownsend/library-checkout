@@ -106,8 +106,8 @@ label{
   display: block;
 }
 .module {
-  width: 40em;
-  height: 40em;
+  width: 60%;
+  height: 80%;
   right: 0;
   left: 0;
   top: 10%;
